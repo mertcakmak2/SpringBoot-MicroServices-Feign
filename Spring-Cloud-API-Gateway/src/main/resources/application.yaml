@@ -24,6 +24,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/student-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter=USER-ADMIN
 
         # http://localhost:9090/student-service/student/create (POST)
         - id: student-service-create
@@ -47,6 +48,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/address-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter=ADMIN
 
         # http://localhost:9090/address-service/address/create (POST)
         - id: address-service-create
