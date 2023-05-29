@@ -2,9 +2,13 @@ server:
   port: 9090
 
 eureka:
+  instance:
+    preferIpAddress: true
   client:
+    registerWithEureka: true
+    fetchRegistry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://${EUREKA_SERVER:localhost}:8761/eureka
 
 spring:
   application:
@@ -19,43 +23,43 @@ spring:
         - id: student-service-get-update-delete
           uri: lb://student-service
           predicates:
-            - Path=/student-service/**
+            - Path=/student/**
             - Method=GET,PUT,DELETE
           filters:
             - RemoveRequestHeader=Cookie
-            - RewritePath=/student-service/(?<segment>.*), /$\{segment}
+            #- RewritePath=/student-service/(?<segment>.*), /$\{segment}
             #- AuthorizationHeaderFilter=USER-ADMIN
 
-        # http://localhost:9090/student-service/student/create (POST)
-        - id: student-service-create
-          uri: lb://student-service
-          predicates:
-            - Path=/student-service/student/create
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/student-service/(?<segment>.*), /$\{segment}
-
-
-        # """"""""""""" -------- ADDRESS-SERVICE -------- """""""""""""
-
-        # http://localhost:9090/address-service/address/getById/1
-        - id: address-service-get-update-delete
-          uri: lb://address-service
-          predicates:
-            - Path=/address-service/address/**
-            - Method=GET,PUT,DELETE
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/address-service/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter=ADMIN
-
-        # http://localhost:9090/address-service/address/create (POST)
-        - id: address-service-create
-          uri: lb://address-service
-          predicates:
-            - Path=/address-service/address/create
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/address-service/(?<segment>.*), /$\{segment}
+#        # http://localhost:9090/student-service/student/create (POST)
+#        - id: student-service-create
+#          uri: lb://student-service
+#          predicates:
+#            - Path=/student-service/student/create
+#            - Method=POST
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/student-service/(?<segment>.*), /$\{segment}
+#
+#
+#        # """"""""""""" -------- ADDRESS-SERVICE -------- """""""""""""
+#
+#        # http://localhost:9090/address-service/address/getById/1
+#        - id: address-service-get-update-delete
+#          uri: lb://address-service
+#          predicates:
+#            - Path=/address-service/address/**
+#            - Method=GET,PUT,DELETE
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/address-service/(?<segment>.*), /$\{segment}
+#            - AuthorizationHeaderFilter=ADMIN
+#
+#        # http://localhost:9090/address-service/address/create (POST)
+#        - id: address-service-create
+#          uri: lb://address-service
+#          predicates:
+#            - Path=/address-service/address/create
+#            - Method=POST
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/address-service/(?<segment>.*), /$\{segment}
