@@ -17,14 +17,14 @@ spring:
         # """"""""""""" -------- STUDENT-SERVICE -------- """""""""""""
 
         - id: student-service-get-update-delete
-          uri: lb://student-service/**
+          uri: lb://student-service
           predicates:
             - Path=/student-service/**
             - Method=GET,PUT,DELETE
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/student-service/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter=USER-ADMIN
+            #- AuthorizationHeaderFilter=USER-ADMIN
 
         # http://localhost:9090/student-service/student/create (POST)
         - id: student-service-create

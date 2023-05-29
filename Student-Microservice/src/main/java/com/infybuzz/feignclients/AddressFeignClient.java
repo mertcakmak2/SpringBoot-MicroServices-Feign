@@ -10,21 +10,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+// Using open feign without Eureka Server
+//@FeignClient(url = "${address.service.url}", value = "address-feign-client", path = "/api/address")
+
 // Using open feign with Eureka Server
 //@FeignClient(value = "address-service", path = "/address")
-@FeignClient(name = "address-service", fallbackFactory = AddressFallBackFactory.class) // 2 kere filter classlarına düşer
+@FeignClient(name = "address-service", fallbackFactory = AddressFallBackFactory.class)
 
 // Using open feign with Api Gateway
 //@FeignClient(value = "api-gateway", fallback=AddressFallback.class)
-//@FeignClient(value = "api-gateway", fallbackFactory = AddressFallBackFactory.class) // 2 kere filter classlarına düşer
+//@FeignClient(value = "api-gateway", fallbackFactory = AddressFallBackFactory.class)
 public interface AddressFeignClient {
 
-    // Using open feign with Eureka Server
     @GetMapping("/address/getById/{id}")
     AddressResponse getById(@PathVariable long id);
 
     // Using open feign with Api Gateway
-   /* @GetMapping("/address-service/address/getById/{id}")
+    /*@GetMapping("/address-service/address/getById/{id}")
     AddressResponse getById(@PathVariable long id);*/
 }
 
