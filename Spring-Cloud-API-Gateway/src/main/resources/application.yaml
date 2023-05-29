@@ -20,7 +20,7 @@ spring:
 
         # """"""""""""" -------- STUDENT-SERVICE -------- """""""""""""
 
-        - id: student-service-get-update-delete
+        - id: student-service-get-update-delete                           # http://localhost:9090/student/getById/1
           uri: lb://student-service
           predicates:
             - Path=/student/**
